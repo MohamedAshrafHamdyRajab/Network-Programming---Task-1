@@ -1,0 +1,39 @@
+from socket import * 
+
+s = socket(AF_INET,SOCK_STREAM) 
+
+print ("The socket created")
+
+host ='127.0.0.1'
+
+port = 40000
+
+messageSize = 2048
+
+s.bind((host, port)) 
+
+print ("The socket binded to ",port) 
+
+s.listen(1)
+
+print ("The socket is listening") 
+
+client , address = s.accept() 
+
+print(f'connection with {address[0]}')
+
+print ('The server get connection from address',address)
+
+client.send(b'Thank you for connecting with the server')
+
+fullMessage = ""
+
+while True:
+
+    clientMessage = client.recv(messageSize).decode('utf-8')
+
+    print(f'client: {clientMessage}')
+
+    serverInput = input('type a message: ')
+
+    client.send(serverInput.encode('utf-8'))
